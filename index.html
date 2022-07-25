@@ -28,9 +28,13 @@
 				</select><br>
 				<label for="batch-name">Product Name</label><br>
 				<input type="text" name="batchname" id="batch-name" placeholder="Product Name" required><br>
+				<label for="weight">Product Weight</label><br>
+				<input type="text" name="weight" id="product-weight" placeholder="Product Weight" required><br>
 				<label for="batch-number">Batch Number</label><br>
 				<input type="text" name="batchnumber" id="batch-number" placeholder="Batch Number" required><br>
-				<label for="year">Year</label><br>
+				<label for="production-date">Production Date</label><br>
+				<input type="date" name="production" id="production-date" required><br>
+				<!--label for="year">Year</label><br>
 				<select id="year" name="year">
 			    	<option>Year</option>
 			    	<option value="2019">2019</option>
@@ -52,7 +56,7 @@
 			    	<option value="October">October</option>
 			    	<option value="November">November</option>
 			    	<option value="December">December</option>
-				</select><br>
+				</select--><br>
 				<label for="expiry">Expiry Date</label><br>
 				<input type="date" name="expiry" id="expiry-date" required><br>
 			</div>
@@ -60,7 +64,10 @@
 		
 		</form>
 	<!--svg id="barcode"></svg-->
-	<img id="barcode" width="70%" height="200px">
+	<img id="barcode" style="height: 150px;width: 55%">
+	<!--svg id="barcode-container" style="height: 100px; width: 150px;">
+		<img src="" id="barcode" width="150px" height="100px">
+	</svg-->
 	<br>
 	<div id="qrResult" style="height: 100px;width: 100px"></div>
 	<h3 id="instruction">Right click on the codes and click "save as image" to download</h3>
@@ -81,30 +88,44 @@
 	const back = document.getElementById("back");
 
 	var qrcode = new QRCode(document.getElementById('qrResult'), {
-		width: 150,
-		height: 150
+		width: 160,
+		height: 160
 	});
 	var button = document.getElementById("btn");
 	button.addEventListener('click', (e)=> {
 		e.preventDefault();
 		const company = document.getElementById('company').value;
 		const name = document.getElementById('batch-name').value;
+		const weight = document.getElementById('product-weight').value;
 		const number = document.getElementById('batch-number').value;
-		const year = document.getElementById('year').value;
-		const month = document.getElementById('month').value;
-		const expiry = document.getElementById('expiry-date').value;
+		//const year = document.getElementById('year').value;
+		//const month = document.getElementById('month').value;
+		const productiondate = document.getElementById('production-date').value;
+		const expirydate = document.getElementById('expiry-date').value;
 		//var text = document.getElementById("batch-number").value;
 		var info = `
-			Product Name: ${name}
-			Batch Number: ${number}
-			Expiry Date: ${expiry}
+			Farm Name: ${company} 
+			Product Name: ${name} 
+			Weight: ${weight} 
+			Batch Number: ${number} 
+			Production Date: ${productiondate}
+			Expiry Date: ${expirydate}
 		`;
+
+		/*JsBarcode("#p_barcode").options(
+			{margin: 0,
+			height: 50,
+			width: 1,
+			font:"OCR-B",
+			ratio:0.8}
+		).EAN13("<?php echo $_GET['get_bar'];?>", 
+		{fontSize: 18, textMargin: -1}).render();*/
 
 		JsBarcode("#barcode", info, {
 		  //format: "CODE128C",
 		  //lineColor: "#0aa",
 		  //lineColor: "red",
-		  width: 2,
+		  //width: 7,
 		  //height: 40,
 		  displayValue: false
 		});
